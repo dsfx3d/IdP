@@ -41,7 +41,7 @@ Designing a database schema for an Identity Provider (IdP) service involves crea
     - `LanguagePreference`: User's preferred language.
     - `TimeZone`: User's time zone.
     - `AuditLogReference`: Reference to an audit log with records of user's activities.
-    - `CustomAttributes`: A JSON/XML blob for any additional custom attributes needed.
+    - `CustomAttributes`: A JSON blob for any additional custom attributes needed.
 
 2. **UserRoles**
     - `UserRoleID` (Primary Key): Unique identifier for the user role.
