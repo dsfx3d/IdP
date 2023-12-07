@@ -1,0 +1,9 @@
+{
+  "extends": ["eslint-config-dsfx3d"],
+  "root": true,
+  "rules": {
+    "import/order": "off",
+    "no-useless-constructor": "off",
+    "unicorn/filename-case": "off"
+  }
+}
