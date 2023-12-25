@@ -3,6 +3,7 @@ import {AppService} from "./app.service";
 import {ConfigModule} from "@nestjs/config";
 import {DbModule} from "./modules/db/db.module";
 import {Module} from "@nestjs/common";
+import {UserManagementModule} from "./modules/user-management/user-management.module";
 import {env} from "./common/env";
 import {validateEnv} from "./common/validateEnv";
 
@@ -15,6 +16,7 @@ import {validateEnv} from "./common/validateEnv";
       cache: true,
     }),
     DbModule,
+    UserManagementModule,
   ],
   controllers: [AppController],
   providers: [AppService],
