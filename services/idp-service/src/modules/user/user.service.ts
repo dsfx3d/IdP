@@ -15,10 +15,7 @@ export class UserService {
 
   create(userDto: CreateUserDto): Promise<User> {
     const {password, ...user} = userDto;
-    const passwordHash = this.crypto.hashPassword({
-      password,
-      salt: this.crypto.hash(user.email),
-    });
+    const passwordHash = this.crypto.hashPassword(password);
     return this.userRepo.save({...user, passwordHash});
   }
 

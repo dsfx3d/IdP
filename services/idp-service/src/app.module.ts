@@ -1,5 +1,4 @@
-import {AppController} from "./app.controller";
-import {AppService} from "./app.service";
+import {ApplicationsModule} from "./modules/applications/applications.module";
 import {ConfigModule} from "@nestjs/config";
 import {DbModule} from "./modules/db/db.module";
 import {Module} from "@nestjs/common";
@@ -17,8 +16,7 @@ import {validateEnv} from "./common/validateEnv";
     }),
     DbModule,
     UserModule,
+    ApplicationsModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
 })
 export class AppModule {}

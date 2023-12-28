@@ -6,4 +6,7 @@ export class EnvironmentVariables {
 
   @IsString()
   DB_NAME: string;
+
+  @IsString()
+  CRYPTO_SECRET_KEY: string;
 }
