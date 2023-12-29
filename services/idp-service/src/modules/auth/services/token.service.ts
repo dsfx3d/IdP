@@ -10,18 +10,31 @@ import {type User} from "~/modules/user/user.entity";
 @Injectable()
 export class TokenService {
   constructor(
-    @InjectRepository(Token) private readonly tokenRepo: Repository<Token>,
+    @InjectRepository(Token) private readonly repo: Repository<Token>,
     private readonly jwt: JwtService,
   ) {}
 
   async generateJWT(user: User, session: Session): Promise<string> {
     const payload = this.toJWTPayload(user, session);
     const token = await this.jwt.signAsync(payload);
-    await this.tokenRepo.save({token, userId: user.id});
+    await this.repo.save({token, userId: user.id});
     return token;
   }
 
+  decryptJWT(token: string): Promise<TJwtPayload> {
+    return this.jwt.verifyAsync(token);
+  }
+
+  deleteOneByJWT(token: string): Promise<unknown> {
+    return this.repo.delete(token);
+  }
+
   toJWTPayload(user: User, session: Session): TJwtPayload {
-    return {sub: user.email, jti: session.id};
+    return {sub: `${user.id}`, jti: session.id};
+  }
+
+  async isTokenFromSession(token: string, session: Session): Promise<boolean> {
+    const payload = await this.decryptJWT(token);
+    return payload.jti === session.id && payload.sub === `${session.userId}`;
   }
 }
