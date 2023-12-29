@@ -24,6 +24,11 @@ export class AuthService {
     return this.tokenService.generateJWT(user, session);
   }
 
+  async signOut(session: Session, token: string): Promise<void> {
+    await this.sessionService.deleteOneById(session.id);
+    await this.tokenService.deleteOneByJWT(token);
+  }
+
   private async validateCredentials(
     credentials: CredentialsDto,
   ): Promise<User> {

@@ -9,26 +9,29 @@ import {type User} from "../user/user.entity";
 @Injectable()
 export class SessionService {
   constructor(
-    @InjectRepository(Session)
-    private readonly sessionRepo: Repository<Session>,
+    @InjectRepository(Session) public readonly repo: Repository<Session>,
   ) {}
 
   createAnonymousSession(ipAddress: string): Promise<Session> {
-    return this.sessionRepo.save({ipAddress});
+    return this.repo.save({ipAddress});
   }
 
   async findOneById(sessionId: string): Promise<Session> {
     try {
-      return await this.sessionRepo.findOneOrFail({where: {id: sessionId}});
+      return await this.repo.findOneOrFail({where: {id: sessionId}});
     } catch {
       throw new SessionNotFound(sessionId);
     }
+  }
+
+  async deleteOneById(sessionId: string): Promise<void> {
+    await this.repo.delete(sessionId);
   }
 
   setSessionUser(session: Session, user: User): Promise<unknown> {
     if (session.userId) {
       throw new SessionAlreadyAuthenticated();
     }
-    return this.sessionRepo.update({id: session.id}, {userId: user.id});
+    return this.repo.update({id: session.id}, {userId: user.id});
   }
 }
