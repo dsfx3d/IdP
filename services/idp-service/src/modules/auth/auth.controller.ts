@@ -6,10 +6,10 @@ import {SessionInterceptor} from "~/modules/session/session.interceptor";
 import {Token} from "./entities/token.entity";
 
 @Controller()
+@UseInterceptors(SessionInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseInterceptors(SessionInterceptor)
   @Post("login")
   async login(
     @Body() credentials: CredentialsDto,
