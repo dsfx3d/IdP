@@ -1,6 +1,7 @@
 import * as crypto from "node:crypto";
 import {ConfigService} from "@nestjs/config";
 import {Injectable} from "@nestjs/common";
+import {constants} from "~/common/constants";
 
 @Injectable()
 export class CryptoService {
@@ -10,7 +11,7 @@ export class CryptoService {
   constructor(private config: ConfigService) {}
 
   private get secretKey(): string {
-    return this.config.get<string>("CRYPTO_SECRET_KEY");
+    return this.config.get<string>(constants.env.CryptoSecretKey);
   }
 
   hash(value: string): string {
@@ -55,7 +56,7 @@ export class CryptoService {
     return decryptedText;
   }
 
-  generateClientSecret(): string {
+  generateSecret(): string {
     return crypto.randomBytes(32).toString("hex");
   }
 }

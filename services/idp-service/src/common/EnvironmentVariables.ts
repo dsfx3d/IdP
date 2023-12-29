@@ -9,4 +9,7 @@ export class EnvironmentVariables {
 
   @IsString()
   CRYPTO_SECRET_KEY: string;
+
+  @IsString()
+  JWT_SECRET: string;
 }
