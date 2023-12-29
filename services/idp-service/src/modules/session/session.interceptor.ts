@@ -3,16 +3,17 @@ import {
   type ExecutionContext,
   Injectable,
   type NestInterceptor,
+  createParamDecorator,
 } from "@nestjs/common";
 
 import {type Observable} from "rxjs";
-import {SessionDecorator} from "./session.decorator";
 import {SessionService} from "./session.service";
 import {TSessionInterceptorRequest} from "./types/TSessionInterceptorRequest";
+import {sessionDecorator} from "./session.decorator";
 
 @Injectable()
 export class SessionInterceptor implements NestInterceptor {
-  static readonly Session = SessionDecorator;
+  static readonly Session = createParamDecorator(sessionDecorator);
 
   constructor(private readonly sessionService: SessionService) {}
 

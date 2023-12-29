@@ -1,10 +1,10 @@
-import {ExecutionContext, createParamDecorator} from "@nestjs/common";
+import {ExecutionContext} from "@nestjs/common";
 import {Session} from "./session.entity";
 import {SessionInterceptorMissing} from "./exceptions/SessionInterceptorMissing";
 import {TSessionInterceptorRequest} from "./types/TSessionInterceptorRequest";
 import {toSessionId} from "./utils/request-utils";
 
-export const SessionDecorator = createParamDecorator(function getSession(
+export function sessionDecorator(
   _data: unknown,
   ctx: ExecutionContext,
 ): Promise<Session> {
@@ -14,4 +14,4 @@ export const SessionDecorator = createParamDecorator(function getSession(
     return request.sessionService.findOneById(sessionId);
   }
   throw new SessionInterceptorMissing();
-});
+}
