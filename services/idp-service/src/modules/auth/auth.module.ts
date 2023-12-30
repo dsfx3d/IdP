@@ -25,5 +25,6 @@ import {constants} from "~/common/constants";
   ],
   controllers: [AuthController],
   providers: [AuthService, CryptoService, TokenService],
+  exports: [TokenService],
 })
 export class AuthModule {}
