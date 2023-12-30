@@ -1,4 +1,4 @@
 export type TJwtPayload = {
-  sub: string;
+  sub: number;
   jti: string;
 };

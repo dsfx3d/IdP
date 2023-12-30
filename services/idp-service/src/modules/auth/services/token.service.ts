@@ -21,8 +21,10 @@ export class TokenService {
     return token;
   }
 
-  decryptJWT(token: string): Promise<TJwtPayload> {
-    return this.jwt.verifyAsync(token);
+  async decryptJWT(token: string): Promise<TJwtPayload> {
+    const payload = await this.jwt.verifyAsync<TJwtPayload>(token);
+    payload.sub = +payload.sub;
+    return payload;
   }
 
   deleteOneByJWT(token: string): Promise<unknown> {
@@ -30,11 +32,11 @@ export class TokenService {
   }
 
   toJWTPayload(user: User, session: Session): TJwtPayload {
-    return {sub: `${user.id}`, jti: session.id};
+    return {sub: user.id, jti: session.id};
   }
 
   async isTokenFromSession(token: string, session: Session): Promise<boolean> {
     const payload = await this.decryptJWT(token);
-    return payload.jti === session.id && payload.sub === `${session.userId}`;
+    return payload.jti === session.id && payload.sub === session.userId;
   }
 }
