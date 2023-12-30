@@ -2,6 +2,7 @@ import {AuthModule} from "./modules/auth/auth.module";
 import {ConfigModule} from "@nestjs/config";
 import {DbModule} from "./modules/db/db.module";
 import {Module} from "@nestjs/common";
+import {ProfileModule} from "./modules/profile/profile.module";
 import {env} from "./common/env";
 import {validateEnv} from "./common/validateEnv";
 
@@ -15,6 +16,7 @@ import {validateEnv} from "./common/validateEnv";
     }),
     DbModule,
     AuthModule,
+    ProfileModule,
   ],
 })
 export class AppModule {}
