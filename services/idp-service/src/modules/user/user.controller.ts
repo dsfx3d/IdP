@@ -17,7 +17,7 @@ export class UserController {
 
   @Post()
   create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
+    return this.userService.createOne(createUserDto);
   }
 
   @Get()
@@ -27,16 +27,16 @@ export class UserController {
 
   @Get(":id")
   findOne(@Param("id") id: string) {
-    return this.userService.findById(+id);
+    return this.userService.findOneById(+id);
   }
 
   @Patch(":id")
   update(@Param("id") id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.updateById(+id, updateUserDto);
+    return this.userService.updateOneById(+id, updateUserDto);
   }
 
   @Delete(":id")
   remove(@Param("id") id: string) {
-    return this.userService.removeById(+id);
+    return this.userService.deleteOneById(+id);
   }
 }

@@ -18,7 +18,7 @@ export class UserService {
     return passwordHash === user?.passwordHash;
   }
 
-  create(userDto: CreateUserDto): Promise<User> {
+  createOne(userDto: CreateUserDto): Promise<User> {
     const {password, ...user} = userDto;
     const passwordHash = this.crypto.hashPassword(password);
     return this.userRepo.save({...user, passwordHash});
@@ -28,19 +28,19 @@ export class UserService {
     return this.userRepo.find();
   }
 
-  findById(id: number): Promise<User | null> {
-    return this.userRepo.findOne({where: {id}});
+  findOneById(id: number): Promise<User> {
+    return this.userRepo.findOneOrFail({where: {id}});
   }
 
-  findOneByEmail(email: string): Promise<User | null> {
-    return this.userRepo.findOne({where: {email}});
+  findOneByEmail(email: string): Promise<User> {
+    return this.userRepo.findOneOrFail({where: {email}});
   }
 
-  updateById(id: number, userDto: UpdateUserDto): Promise<unknown> {
+  updateOneById(id: number, userDto: UpdateUserDto): Promise<unknown> {
     return this.userRepo.update({id}, userDto);
   }
 
-  removeById(id: number): Promise<unknown> {
+  deleteOneById(id: number): Promise<unknown> {
     return this.userRepo.delete({id});
   }
 }
