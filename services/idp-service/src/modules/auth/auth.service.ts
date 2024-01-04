@@ -3,14 +3,13 @@ import {Injectable} from "@nestjs/common";
 import {InvalidCredentials} from "./exceptions/InvalidCredentials";
 import {type Session} from "~/modules/session/session.entity";
 import {SessionService} from "~/modules/session/session.service";
-import {TokenService} from "./services/token.service";
+import {TokenPair} from "../token/types/TokenPair.type";
 import {type User} from "../user/user.entity";
 import {UserService} from "../user/user.service";
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly tokenService: TokenService,
     private readonly userService: UserService,
     private readonly sessionService: SessionService,
   ) {}
@@ -18,15 +17,13 @@ export class AuthService {
   async signIn(
     credentials: CredentialsDto,
     session: Session,
-  ): Promise<string | undefined> {
+  ): Promise<TokenPair> {
     const user = await this.validateCredentials(credentials);
-    await this.sessionService.setSessionUser(session, user);
-    return this.tokenService.generateJWT(user, session);
+    return this.sessionService.authenticateSession(session, user);
   }
 
-  async signOut(session: Session, token: string): Promise<void> {
+  async signOut(session: Session): Promise<void> {
     await this.sessionService.deleteOneById(session.id);
-    await this.tokenService.deleteOneByJWT(token);
   }
 
   private async validateCredentials(

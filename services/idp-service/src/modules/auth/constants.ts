@@ -1,5 +1,5 @@
 export const constants = {
   Headers: {
-    AuthZ: "authorization",
+    AuthToken: "x-auth-token",
   },
 };
