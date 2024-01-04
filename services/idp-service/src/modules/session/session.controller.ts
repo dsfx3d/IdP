@@ -1,13 +1,23 @@
-import {Controller, Ip, Post} from "@nestjs/common";
-import {Session} from "./session.entity";
+import {Controller, Headers, Ip, Post} from "@nestjs/common";
+import {RequiredHeader} from "~/decorators/required-header.decorator";
 import {SessionService} from "./session.service";
+import {constants} from "./constants";
 
 @Controller("session")
 export class SessionController {
   constructor(private readonly sessionService: SessionService) {}
 
   @Post()
-  createAnonymousSession(@Ip() ip: string): Promise<Session> {
-    return this.sessionService.createAnonymousSession(ip);
+  async createAnonymousSession(
+    @Ip() ipAddress: string,
+    @RequiredHeader(constants.Headers.DeviceId) deviceId: string,
+    @Headers("user-agent") userAgent: string,
+  ): Promise<{sid: string}> {
+    const {id: sid} = await this.sessionService.createAnonymousSession({
+      ipAddress,
+      deviceId,
+      userAgent,
+    });
+    return {sid};
   }
 }

@@ -12,13 +12,22 @@ export class Session {
   @PrimaryGeneratedColumn("uuid")
   id: string;
 
-  @ManyToOne(() => User, user => user.sessions)
-  @JoinColumn()
-  user: User;
-
   @Column({nullable: true})
   userId: number;
 
   @Column()
   ipAddress: string;
+
+  @Column()
+  deviceId: string;
+
+  @Column({nullable: true})
+  userAgent: string;
+
+  @Column({nullable: true})
+  refreshToken: string;
+
+  @ManyToOne(() => User, user => user.sessions)
+  @JoinColumn()
+  user: User;
 }
