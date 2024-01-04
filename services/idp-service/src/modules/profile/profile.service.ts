@@ -1,5 +1,5 @@
 import {Injectable} from "@nestjs/common";
-import {TokenService} from "../auth/services/token.service";
+import {TokenService} from "../token/token.service";
 import {UserService} from "../user/user.service";
 
 @Injectable()
@@ -10,7 +10,7 @@ export class ProfileService {
   ) {}
 
   async getProfileByJWT(jwt: string): Promise<unknown> {
-    const {sub: userId} = await this.tokenService.decryptJWT(jwt);
-    return this.userService.findById(userId);
+    const {uid} = await this.tokenService.decodeToken(jwt);
+    return this.userService.findOneById(uid);
   }
 }
