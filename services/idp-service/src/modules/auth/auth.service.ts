@@ -1,4 +1,5 @@
 import {type CredentialsDto} from "./dto/credentials.dto";
+import {EntityNotFoundError} from "typeorm";
 import {Injectable} from "@nestjs/common";
 import {InvalidCredentials} from "./exceptions/InvalidCredentials";
 import {type Session} from "~/modules/session/session.entity";
@@ -29,7 +30,7 @@ export class AuthService {
   private async validateCredentials(
     credentials: CredentialsDto,
   ): Promise<User> {
-    const user = await this.userService.findOneByEmail(credentials.email);
+    const user = await this.toUser(credentials);
     const isAuthenticated = this.userService.checkPassword(
       credentials.password,
       user,
@@ -38,5 +39,16 @@ export class AuthService {
       return user;
     }
     throw new InvalidCredentials();
+  }
+
+  private async toUser(credentials: CredentialsDto): Promise<User> {
+    try {
+      return await this.userService.findOneByEmail(credentials.email);
+    } catch (error) {
+      if (error instanceof EntityNotFoundError) {
+        throw new InvalidCredentials();
+      }
+      throw error;
+    }
   }
 }
