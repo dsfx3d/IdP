@@ -12,12 +12,12 @@ export class SessionController {
     @Ip() ipAddress: string,
     @RequiredHeader(constants.Headers.DeviceId) deviceId: string,
     @Headers("user-agent") userAgent: string,
-  ): Promise<{sid: string}> {
+  ): Promise<string> {
     const {id: sid} = await this.sessionService.createAnonymousSession({
       ipAddress,
       deviceId,
       userAgent,
     });
-    return {sid};
+    return sid;
   }
 }
