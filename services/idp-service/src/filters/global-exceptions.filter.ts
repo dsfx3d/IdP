@@ -14,22 +14,23 @@ export class GlobalExceptionsFilter implements ExceptionFilter {
     const response = context.getResponse<Response>();
     const status = this.toStatusCode(exception);
     const payload = this.toResponsePayload(exception, status);
-
-    if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
-      console.error(exception);
-    }
     return response.status(status).json(payload);
   }
 
   private toStatusCode(exception: any): number {
-    return exception instanceof HttpException
-      ? exception.getStatus()
-      : HttpStatus.INTERNAL_SERVER_ERROR;
+    const status =
+      exception instanceof HttpException
+        ? exception.getStatus()
+        : HttpStatus.INTERNAL_SERVER_ERROR;
+    if (status === HttpStatus.INTERNAL_SERVER_ERROR) {
+      console.error(exception);
+    }
+    return status;
   }
 
   private toMessage(exception: any, status: number): string {
     return status < HttpStatus.INTERNAL_SERVER_ERROR
-      ? exception.message
+      ? exception.response.message
       : "Internal Server Error";
   }
 
