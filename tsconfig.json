@@ -4,11 +4,13 @@
     "module": "ESNext",
     "moduleResolution": "Node",
     "esModuleInterop": true,
+    "experimentalDecorators": true,
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
     "paths": {
-      "@/*": ["services/*"]
+      "@/*": ["services/*"],
+      "@pkg/*": ["packages/*"]
     }
   }
 }
