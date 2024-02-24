@@ -1,18 +1,14 @@
+import {IHashService} from "./IHashService";
+import {THashMatchRequest} from "./THashMatchRequest";
 import {pbkdf2Sync, randomBytes} from "node:crypto";
 
-export class HashService {
-  hashPassword(password: string): string {
+export class Pbkdf2Service implements IHashService {
+  hash(password: string): string {
     const salt = randomBytes(16);
     return this.toPbkdf2(password, salt);
   }
 
-  isEqual({
-    password,
-    passwordHash,
-  }: {
-    password: string;
-    passwordHash: string;
-  }): boolean {
+  match({plain: password, hash: passwordHash}: THashMatchRequest): boolean {
     const [salt] = passwordHash.split(".");
     const hashedPassword = this.toPbkdf2(password, Buffer.from(salt, "hex"));
     return hashedPassword === passwordHash;
