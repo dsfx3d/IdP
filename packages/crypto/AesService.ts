@@ -5,7 +5,7 @@ import {
   randomBytes,
 } from "node:crypto";
 import {TAesAlgo} from "./TAesAlgo";
-import {createAesTransformer} from "./createCryptoTransformer";
+import {createAesTransformer} from "./createAesTransformer";
 
 export class AesService {
   private ivLength: Record<TAesAlgo, number> = {
