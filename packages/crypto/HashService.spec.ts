@@ -24,7 +24,7 @@ describe(HashService.name, () => {
       const hashService = new HashService();
       const password = "password";
       const passwordHash = hashService.hashPassword(password);
-      const isEqual = hashService.isEqual(password, passwordHash);
+      const isEqual = hashService.isEqual({password, passwordHash});
       expect(isEqual).toBeTruthy();
     });
   });
